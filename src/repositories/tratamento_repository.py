@@ -1,6 +1,6 @@
-from src.entities.Tratamento import tratamento
-from src.repositories.base_repository import BaseRepository
+from entities.Tratamento import Tratamento
+from repositories.base_repository import BaseRepository
 
-class TratamentoRepository(BaseRepository[tratamento]):
+class TratamentoRepository(BaseRepository[Tratamento]):
     def __init__(self, session):
-        super().__init__(tratamento, session)
+        super().__init__(Tratamento, session)

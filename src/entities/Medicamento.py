@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, Float
 from entities.Base import Base
 
-class medicamento(Base):
+class Medicamento(Base):
     __tablename__ = 'medicamento'
+    __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     nome = Column(String(45), nullable=False)

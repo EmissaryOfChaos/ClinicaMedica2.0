@@ -2,8 +2,9 @@ from sqlalchemy import Column, Integer, Date, Time, ForeignKey
 from sqlalchemy.orm import relationship
 from entities.Base import Base
 
-class consulta(Base):
+class Consulta(Base):
     __tablename__ = 'consulta'
+    __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     paciente_id = Column(Integer, ForeignKey('paciente.id'), nullable=False)
@@ -11,9 +12,9 @@ class consulta(Base):
     data_consulta = Column(Date, nullable=False)
     horario = Column(Time, nullable=False)
 
-    paciente = relationship("paciente", backref="consultas")
-    medico = relationship("medico", backref="consultas")
-    tratamentos = relationship("tratamento", backref="consulta", cascade="all, delete-orphan")
+    paciente = relationship("Paciente", backref="consultas")
+    medico = relationship("Medico", backref="consultas")
+    tratamentos = relationship("Tratamento", back_populates="consulta", cascade="all, delete-orphan")
 
     def __init__(self, paciente_id, medico_id, data_consulta, horario):
         self.paciente_id = paciente_id

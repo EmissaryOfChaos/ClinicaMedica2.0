@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date
 from entities.Base import Base
 
-class pessoa(Base):
+class Pessoa(Base):
     __abstract__ = True  # Não cria tabela no banco
 
     id = Column(Integer, primary_key=True)

@@ -1,11 +1,11 @@
 from repositories.paciente_repository import PacienteRepository
-from entities.Paciente import paciente
+from entities.Paciente import Paciente
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 from datetime import date
 
 
-class PacienteService(BaseService[paciente, PacienteRepository]):
+class PacienteService(BaseService[Paciente, PacienteRepository]):
     def __init__(self, session: Session):
         super().__init__(PacienteRepository(session))
 
@@ -29,7 +29,7 @@ class PacienteService(BaseService[paciente, PacienteRepository]):
         if self.repository.get_by_cpf(data["cpf"]):
             raise ValueError("CPF já cadastrado.")
 
-        paciente = paciente(
+        paciente = Paciente(
             nome=data["nome"],
             data_nascimento=data["data_nascimento"],
             cpf=data["cpf"],

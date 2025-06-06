@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from controllers.consulta_controller import ConsultaController
 
-consulta_bp = Blueprint("consulta", __name__, url_prefix="/consultas")
+consulta_bp = Blueprint("Consulta", __name__, url_prefix="/consultas")
 
 @consulta_bp.route("/", methods=["GET"])
 def listar_consultas():

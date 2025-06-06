@@ -1,10 +1,10 @@
 from repositories.medicamento_repository import MedicamentoRepository
-from entities.Medicamento import medicamento
+from entities.Medicamento import Medicamento
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 
 
-class MedicamentoService(BaseService[medicamento, MedicamentoRepository]):
+class MedicamentoService(BaseService[Medicamento, MedicamentoRepository]):
     def __init__(self, session: Session):
         super().__init__(MedicamentoRepository(session))
 
@@ -12,7 +12,7 @@ class MedicamentoService(BaseService[medicamento, MedicamentoRepository]):
         return self.repository.get_by_nome(nome)
 
     def criar_medicamento(self, data: dict):
-        medicamento = medicamento(
+        medicamento = Medicamento(
             nome=data["nome"],
             dosagem=data["dosagem"],
             forma_apresentacao=data.get("forma_apresentacao", "Comprimido"),

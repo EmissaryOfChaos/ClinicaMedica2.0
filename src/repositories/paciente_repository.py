@@ -1,10 +1,10 @@
-from src.entities.Paciente import paciente
-from src.repositories.base_repository import BaseRepository
+from entities.Paciente import Paciente
+from repositories.base_repository import BaseRepository
 from typing import Optional
 
-class PacienteRepository(BaseRepository[paciente]):
+class PacienteRepository(BaseRepository[Paciente]):
     def __init__(self, session):
-        super().__init__(paciente, session)
+        super().__init__(Paciente, session)
 
-    def get_by_cpf(self, cpf: str) -> Optional[paciente]:
-        return self.session.query(paciente).filter(paciente.cpf == cpf).first()
+    def get_by_cpf(self, cpf: str) -> Optional[Paciente]:
+        return self.session.query(Paciente).filter(Paciente.cpf == cpf).first()

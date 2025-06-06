@@ -1,10 +1,10 @@
 from repositories.especialidade_repository import EspecialidadeRepository
-from entities.Especialidade import especialidade
+from entities.Especialidade import Especialidade
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 
 
-class EspecialidadeService(BaseService[especialidade, EspecialidadeRepository]):
+class EspecialidadeService(BaseService[Especialidade, EspecialidadeRepository]):
     def __init__(self, session: Session):
         super().__init__(EspecialidadeRepository(session))
 
@@ -12,7 +12,7 @@ class EspecialidadeService(BaseService[especialidade, EspecialidadeRepository]):
         return self.repository.get_by_nome(nome)
 
     def criar_especialidade(self, data: dict):
-        especialidade = especialidade(
+        especialidade = Especialidade(
             nome=data["nome"]
         )
         return self.repository.create(especialidade)

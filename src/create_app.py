@@ -8,13 +8,11 @@ from routes.posologia_route import posologia_bp
 from routes.medicamento_route import medicamento_bp
 from routes.especialidade_route import especialidade_bp
 from core.database import init_db
+from config import Config
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    
-    # Configuração do banco (exemplo com MySQL)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:senha@localhost:3306/ClinicaMedica'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config.from_object(Config)
 
     # Inicializa o banco
     init_db(app)

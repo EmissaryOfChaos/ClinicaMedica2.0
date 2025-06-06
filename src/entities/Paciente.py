@@ -1,13 +1,14 @@
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from entities.Base import Base
+from entities.Pessoa import Pessoa
 
-class paciente(Base):
+class Paciente(Pessoa):
     __tablename__ = "paciente"
+    __table_args__ = {'extend_existing': True}
 
     prontuario = Column("prontuario", String(100), nullable=False)
 
-    consulta = relationship("consulta", back_populates="paciente")
+    consulta = relationship("Consulta", back_populates="paciente")
 
     def __init__(self, nome, data_nascimento, cpf, telefone, prontuario):
         super().__init__(nome, data_nascimento, cpf, telefone)

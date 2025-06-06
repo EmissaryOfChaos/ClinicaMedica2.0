@@ -1,12 +1,12 @@
 from repositories.posologia_repository import PosologiaRepository
 from repositories.tratamento_repository import TratamentoRepository
 from repositories.medicamento_repository import MedicamentoRepository
-from entities.Posologia import posologia
+from entities.Posologia import Posologia
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 
 
-class PosologiaService(BaseService[posologia, PosologiaRepository]):
+class PosologiaService(BaseService[Posologia, PosologiaRepository]):
     def __init__(self, session: Session):
         super().__init__(PosologiaRepository(session))
         self.tratamento_repo = TratamentoRepository(session)
@@ -32,7 +32,7 @@ class PosologiaService(BaseService[posologia, PosologiaRepository]):
         medicamento.qtd_estoque -= qtd_utilizada
         self.medicamento_repo.update(medicamento)
 
-        posologia = posologia(
+        posologia = Posologia(
             medicamento_id=data["medicamento_id"],
             tratamento_id=data["tratamento_id"],
             receita=data["receita"],

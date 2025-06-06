@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from services.posologia_service import PosologiaService
 from core.database import SessionLocal
 
-posologia_bp = Blueprint("posologia", __name__, url_prefix="/posologias")
+posologia_bp = Blueprint("Posologia", __name__, url_prefix="/posologias")
 
 @posologia_bp.route("/", methods=["GET"])
 def listar_posologias():

@@ -1,11 +1,11 @@
 from repositories.medico_repository import MedicoRepository
-from entities.Medico import medico
+from entities.Medico import Medico
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 from datetime import date
 
 
-class MedicoService(BaseService[medico, MedicoRepository]):
+class MedicoService(BaseService[Medico, MedicoRepository]):
     def __init__(self, session: Session):
         super().__init__(MedicoRepository(session))
 
@@ -42,7 +42,7 @@ class MedicoService(BaseService[medico, MedicoRepository]):
         if self.repository.get_by_cpf(data["cpf"]):
             raise ValueError("CPF já cadastrado.")
 
-        medico = medico(
+        medico = Medico(
             nome=data["nome"],
             data_nascimento=data["data_nascimento"],
             cpf=data["cpf"],

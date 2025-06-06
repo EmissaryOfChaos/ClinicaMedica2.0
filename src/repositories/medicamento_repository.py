@@ -1,10 +1,10 @@
-from src.entities.Medicamento import medicamento
-from src.repositories.base_repository import BaseRepository
+from entities.Medicamento import Medicamento
+from repositories.base_repository import BaseRepository
 from typing import List
 
-class MedicamentoRepository(BaseRepository[medicamento]):
+class MedicamentoRepository(BaseRepository[Medicamento]):
     def __init__(self, session):
-        super().__init__(medicamento, session)
+        super().__init__(Medicamento, session)
 
-    def get_by_nome(self, nome: str) -> List[medicamento]:
-        return self.session.query(medicamento).filter(medicamento.nome.like(f"%{nome}%")).all()
+    def get_by_nome(self, nome: str) -> List[Medicamento]:
+        return self.session.query(Medicamento).filter(Medicamento.nome.like(f"%{nome}%")).all()

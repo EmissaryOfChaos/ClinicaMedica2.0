@@ -1,9 +1,9 @@
-from src.entities.Posologia import posologia
-from src.repositories.base_repository import BaseRepository
+from entities.Posologia import Posologia
+from repositories.base_repository import BaseRepository
 
-class PosologiaRepository(BaseRepository[posologia]):
+class PosologiaRepository(BaseRepository[Posologia]):
     def __init__(self, session):
-        super().__init__(posologia, session)
+        super().__init__(Posologia, session)
 
     def get_by_tratamento_id(self, tratamento_id: int):
-        return self.session.query(posologia).filter(posologia.tratamento_id == tratamento_id).all()
+        return self.session.query(Posologia).filter(Posologia.tratamento_id == tratamento_id).all()

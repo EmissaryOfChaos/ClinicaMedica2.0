@@ -1,3 +1,3 @@
 class Config:
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/pav_clinica'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:blackangel@localhost:3306/ClinicaMedica'
     SQLALCHEMY_TRACK_MODIFICATIONS = False

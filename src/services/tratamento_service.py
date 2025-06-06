@@ -1,11 +1,11 @@
 from repositories.tratamento_repository import TratamentoRepository
 from repositories.consulta_repository import ConsultaRepository
-from entities.Tratamento import tratamento
+from entities.Tratamento import Tratamento
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 
 
-class TratamentoService(BaseService[tratamento, TratamentoRepository]):
+class TratamentoService(BaseService[Tratamento, TratamentoRepository]):
     def __init__(self, session: Session):
         super().__init__(TratamentoRepository(session))
         self.consulta_repo = ConsultaRepository(session)
@@ -17,7 +17,7 @@ class TratamentoService(BaseService[tratamento, TratamentoRepository]):
         if not self.consulta_repo.get_by_id(data["consulta_id"]):
             raise ValueError("Consulta não encontrada.")
 
-        tratamento = tratamento(
+        tratamento = Tratamento(
             descricao=data["descricao"],
             data_inicio=data["data_inicio"],
             data_fim=data.get("data_fim"),

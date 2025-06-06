@@ -2,8 +2,9 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from entities.Base import Base
 
-class posologia(Base):
+class Posologia(Base):
     __tablename__ = 'posologia'
+    __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     medicamento_id = Column(Integer, ForeignKey('medicamento.id'), nullable=False)
@@ -11,7 +12,9 @@ class posologia(Base):
     receita = Column(String(100), nullable=False)
     qtd_utilizada = Column(Integer, nullable=True)
 
-    medicamento = relationship("medicamento")
+    tratamento = relationship("Tratamento", back_populates="posologias")
+
+    medicamento = relationship("Medicamento")
 
     def __init__(self, medicamento_id, tratamento_id, receita, qtd_utilizada):
         self.medicamento_id = medicamento_id

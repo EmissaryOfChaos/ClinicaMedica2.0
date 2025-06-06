@@ -1,8 +1,7 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.orm import Session
-from core.database import SessionLocal
+from core.database import get_session
 from typing import Type
-
 
 class BaseRoute:
     def __init__(self, name: str, url_prefix: str, service_class: Type):
@@ -15,7 +14,7 @@ class BaseRoute:
         self.blueprint.add_url_rule("/<int:entity_id>", view_func=self.deletar, methods=["DELETE"])
 
     def get_service(self) -> Session:
-        session = SessionLocal()
+        session = get_session()
         service = self.service_class(session)
         return session, service
 
@@ -57,3 +56,4 @@ class BaseRoute:
             return jsonify({"erro": "Não encontrado"}), 404
         finally:
             session.close()
+    

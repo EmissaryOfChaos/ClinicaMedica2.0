@@ -2,8 +2,9 @@ from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from entities.Base import Base
 
-class tratamento(Base):
+class Tratamento(Base):
     __tablename__ = 'tratamento'
+    __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     descricao = Column(String(100), nullable=False)
@@ -11,7 +12,8 @@ class tratamento(Base):
     data_fim = Column(Date, nullable=True)
     consulta_id = Column(Integer, ForeignKey('consulta.id'), nullable=False)
 
-    posologias = relationship("posologia", backref="tratamento", cascade="all, delete-orphan")
+    consulta = relationship("Consulta", back_populates="tratamentos")
+    posologias = relationship("Posologia", back_populates="tratamento", cascade="all, delete-orphan")
 
     def __init__(self, descricao, data_inicio, data_fim, consulta_id):
         self.descricao = descricao
@@ -27,6 +29,9 @@ class tratamento(Base):
             'data_fim': self.data_fim.isoformat() if self.data_fim else None,
             'consulta_id': self.consulta_id
         }
+
+
+    
 
 
     

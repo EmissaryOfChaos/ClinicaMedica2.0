@@ -1,15 +1,16 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from entities.Pessoa import pessoa
+from entities.Pessoa import Pessoa
 
-class medico(pessoa):
+class Medico(Pessoa):
     __tablename__ = "medico"
+    __table_args__ = {'extend_existing': True}
 
     CRM = Column("CRM", String(10), nullable=False)
     
     especialidade_id = Column(Integer, ForeignKey("especialidade.id", ondelete='SET NULL'), nullable=True)
     
-    especialidade = relationship("especialidade", back_populates="medico")
+    especialidade = relationship("Especialidade", back_populates="medicos")
 
     def __init__(self, nome, data_nascimento, cpf, telefone, crm, especialidade_id):
         super().__init__(nome, data_nascimento, cpf, telefone)

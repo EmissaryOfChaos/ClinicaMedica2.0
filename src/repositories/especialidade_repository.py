@@ -1,10 +1,10 @@
-from src.entities.Especialidade import especialidade
-from src.repositories.base_repository import BaseRepository
+from entities.Especialidade import Especialidade
+from repositories.base_repository import BaseRepository
 from typing import List
 
-class EspecialidadeRepository(BaseRepository[especialidade]):
+class EspecialidadeRepository(BaseRepository[Especialidade]):
     def __init__(self, session):
-        super().__init__(especialidade, session)
+        super().__init__(Especialidade, session)
 
-    def get_by_nome(self, nome: str) -> List[especialidade]:
-        return self.session.query(especialidade).filter(especialidade.nome.like(f"%{nome}%")).all()
+    def get_by_nome(self, nome: str) -> List[Especialidade]:
+        return self.session.query(Especialidade).filter(Especialidade.nome.like(f"%{nome}%")).all()
