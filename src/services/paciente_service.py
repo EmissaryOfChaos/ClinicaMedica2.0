@@ -3,6 +3,7 @@ from entities.Paciente import Paciente
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 from datetime import date
+from datetime import datetime
 
 
 class PacienteService(BaseService[Paciente, PacienteRepository]):
@@ -18,6 +19,10 @@ class PacienteService(BaseService[Paciente, PacienteRepository]):
 
         if not data.get("data_nascimento"):
             raise ValueError("Data de nascimento é obrigatória.")
+
+        # Converta a string para date, se necessário
+        if isinstance(data["data_nascimento"], str):
+            data["data_nascimento"] = datetime.strptime(data["data_nascimento"], "%Y-%m-%d").date()
 
         if any(char.isdigit() for char in data["nome"]):
             raise ValueError("Nome não pode conter números.")
@@ -38,9 +43,15 @@ class PacienteService(BaseService[Paciente, PacienteRepository]):
         )
         return self.repository.create(paciente)
 
+    criar = criar_paciente
+
     @staticmethod
     def calcular_idade(data_nascimento):
         hoje = date.today()
         return hoje.year - data_nascimento.year - (
             (hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day)
         )
+
+
+    
+    
