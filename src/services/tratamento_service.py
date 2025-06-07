@@ -24,3 +24,5 @@ class TratamentoService(BaseService[Tratamento, TratamentoRepository]):
             consulta_id=data["consulta_id"]
         )
         return self.repository.create(tratamento)
+    
+    criar = criar_tratamento

@@ -27,3 +27,5 @@ class EspecialidadeService(BaseService[Especialidade, EspecialidadeRepository]):
                 setattr(especialidade, key, value)
 
         return self.repository.update(especialidade)
+    
+    criar = criar_especialidade

@@ -30,3 +30,5 @@ class MedicamentoService(BaseService[Medicamento, MedicamentoRepository]):
                 setattr(medicamento, key, value)
 
         return self.repository.update(medicamento)
+    
+    criar = criar_medicamento

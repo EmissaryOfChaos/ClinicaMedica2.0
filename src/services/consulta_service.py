@@ -41,3 +41,5 @@ class ConsultaService(BaseService[Consulta, ConsultaRepository]):
             horario=data["horario"]
         )
         return self.repository.create(consulta)
+    
+    criar = criar_consulta

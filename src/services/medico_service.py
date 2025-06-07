@@ -1,5 +1,6 @@
 from repositories.medico_repository import MedicoRepository
 from entities.Medico import Medico
+from datetime import datetime
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 from datetime import date
@@ -20,6 +21,10 @@ class MedicoService(BaseService[Medico, MedicoRepository]):
         # Validação 6: Data de nascimento obrigatória
         if not data.get("data_nascimento"):
             raise ValueError("Data de nascimento é obrigatória.")
+        
+        # Converta a string para date, se necessário
+        if isinstance(data["data_nascimento"], str):
+            data["data_nascimento"] = datetime.strptime(data["data_nascimento"], "%Y-%m-%d").date()
 
         # Validação 7: CRM obrigatório
         if not data.get("crm"):
@@ -62,6 +67,8 @@ class MedicoService(BaseService[Medico, MedicoRepository]):
                 setattr(medico, key, value)
 
         return self.repository.update(medico)
+    
+    criar = criar_medico
 
     @staticmethod
     def calcular_idade(data_nascimento):

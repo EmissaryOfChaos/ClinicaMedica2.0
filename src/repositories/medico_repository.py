@@ -8,3 +8,6 @@ class MedicoRepository(BaseRepository[Medico]):
 
     def get_by_crm(self, crm: str) -> Optional[Medico]:
         return self.session.query(Medico).filter(Medico.crm == crm).first()
+    
+    def get_by_cpf(self, cpf: str):
+        return self.session.query(Medico).filter(Medico.cpf == cpf).first()

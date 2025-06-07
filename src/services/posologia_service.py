@@ -39,3 +39,5 @@ class PosologiaService(BaseService[Posologia, PosologiaRepository]):
             qtd_utilizada=qtd_utilizada
         )
         return self.repository.create(posologia)
+    
+    criar = criar_posologia

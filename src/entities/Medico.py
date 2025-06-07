@@ -6,7 +6,7 @@ class Medico(Pessoa):
     __tablename__ = "medico"
     __table_args__ = {'extend_existing': True}
 
-    CRM = Column("CRM", String(10), nullable=False)
+    crm = Column("CRM", String(10), nullable=False)
     
     especialidade_id = Column(Integer, ForeignKey("especialidade.id", ondelete='SET NULL'), nullable=True)
     
