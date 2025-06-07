@@ -5,6 +5,7 @@ from entities.Consulta import Consulta
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 from datetime import date
+from datetime import datetime
 
 
 class ConsultaService(BaseService[Consulta, ConsultaRepository]):
@@ -27,6 +28,14 @@ class ConsultaService(BaseService[Consulta, ConsultaRepository]):
         for consulta in consultas_no_dia:
             if consulta.data_consulta == data["data_consulta"] and consulta.horario == data["horario"]:
                 raise ValueError("Já existe uma consulta marcada para este horário.")
+            
+        # Converta a string para date, se necessário
+        if isinstance(data["data_consulta"], str):
+            data["data_consulta"] = datetime.strptime(data["data_consulta"], "%Y-%m-%d").date()
+
+        # Converta a string para date, se necessário
+        if isinstance(data["horario"], str):
+            data["horario"] = datetime.strptime(data["horario"], "%H:%M").time()
 
         if not self.paciente_repo.get_by_id(data["paciente_id"]):
             raise ValueError("Paciente não encontrado.")

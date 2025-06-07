@@ -4,6 +4,7 @@ from datetime import datetime
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
 from datetime import date
+from datetime import datetime
 
 
 class MedicoService(BaseService[Medico, MedicoRepository]):
