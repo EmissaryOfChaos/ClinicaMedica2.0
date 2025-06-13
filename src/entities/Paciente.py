@@ -8,7 +8,7 @@ class Paciente(Pessoa):
 
     prontuario = Column("prontuario", String(100), nullable=False)
 
-    consulta = relationship("Consulta", back_populates="paciente")
+    consulta = relationship("Consulta", back_populates="paciente", cascade="all, delete-orphan", passive_deletes=True)
 
     def __init__(self, nome, data_nascimento, cpf, telefone, prontuario):
         super().__init__(nome, data_nascimento, cpf, telefone)

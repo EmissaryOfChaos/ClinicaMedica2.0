@@ -12,8 +12,8 @@ class Consulta(Base):
     data_consulta = Column(Date, nullable=False)
     horario = Column(Time, nullable=False)
 
-    paciente = relationship("Paciente", backref="consultas")
-    medico = relationship("Medico", backref="consultas")
+    paciente = relationship("Paciente", backref="consultas", passive_deletes=True)
+    medico = relationship("Medico", backref="consultas", passive_deletes=True)
     tratamentos = relationship("Tratamento", back_populates="consulta", cascade="all, delete-orphan")
 
     def __init__(self, paciente_id, medico_id, data_consulta, horario):

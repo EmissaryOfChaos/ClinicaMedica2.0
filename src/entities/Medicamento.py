@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy.orm import relationship
 from entities.Base import Base
 
 class Medicamento(Base):
@@ -10,6 +11,8 @@ class Medicamento(Base):
     dosagem = Column(Float, nullable=False)
     forma_apresentacao = Column(String(20), nullable=False, default="Comprimido/Xarope")
     qtd_estoque = Column(Integer, nullable=True)
+
+    posologias = relationship("Posologia", back_populates="medicamento", cascade="all, delete-orphan", passive_deletes=True)
 
     def __init__(self, nome, dosagem, forma_apresentacao, qtd_estoque):
         self.nome = nome

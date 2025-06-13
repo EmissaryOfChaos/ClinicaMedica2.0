@@ -7,14 +7,13 @@ class Posologia(Base):
     __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
-    medicamento_id = Column(Integer, ForeignKey('medicamento.id'), nullable=False)
-    tratamento_id = Column(Integer, ForeignKey('tratamento.id'), nullable=False)
+    medicamento_id = Column(Integer, ForeignKey('medicamento.id', ondelete='SET NULL'), nullable=True)
+    tratamento_id = Column(Integer, ForeignKey('tratamento.id', ondelete='CASCADE'), nullable=False)
     receita = Column(String(100), nullable=False)
     qtd_utilizada = Column(Integer, nullable=True)
 
-    tratamento = relationship("Tratamento", back_populates="posologias")
-
-    medicamento = relationship("Medicamento")
+    tratamento = relationship("Tratamento", back_populates="posologias", passive_deletes=True)
+    medicamento = relationship("Medicamento", back_populates="posologias", passive_deletes=True)
 
     def __init__(self, medicamento_id, tratamento_id, receita, qtd_utilizada):
         self.medicamento_id = medicamento_id

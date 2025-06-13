@@ -10,9 +10,9 @@ class Tratamento(Base):
     descricao = Column(String(100), nullable=False)
     data_inicio = Column(Date, nullable=False)
     data_fim = Column(Date, nullable=True)
-    consulta_id = Column(Integer, ForeignKey('consulta.id'), nullable=False)
+    consulta_id = Column(Integer, ForeignKey('consulta.id', ondelete='CASCADE'), nullable=False)
 
-    consulta = relationship("Consulta", back_populates="tratamentos")
+    consulta = relationship("Consulta", back_populates="tratamentos", passive_deletes=True)
     posologias = relationship("Posologia", back_populates="tratamento", cascade="all, delete-orphan")
 
     def __init__(self, descricao, data_inicio, data_fim, consulta_id):
