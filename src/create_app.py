@@ -29,4 +29,8 @@ def create_app() -> Flask:
     app.register_blueprint(medicamento_bp)
     app.register_blueprint(especialidade_bp)
 
+    @app.route("/", methods=["GET"])
+    def home():
+        return "<h1>Seja bem-vindo à Clínica! 🏥</h1>"
+
     return app
