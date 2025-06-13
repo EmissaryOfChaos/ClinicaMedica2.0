@@ -21,6 +21,15 @@ class ConsultaService(BaseService[Consulta, ConsultaRepository]):
         return self.repository.get_by_medico_id(medico_id)
 
     def criar_consulta(self, data: dict):
+
+         # Converta a string para date, se necessário
+        if isinstance(data["data_consulta"], str):
+            data["data_consulta"] = datetime.strptime(data["data_consulta"], "%Y-%m-%d").date()
+
+        # Converta a string para date, se necessário
+        if isinstance(data["horario"], str):
+            data["horario"] = datetime.strptime(data["horario"], "%H:%M").time()
+
         if data["data_consulta"] < date.today():
             raise ValueError("Não é possível marcar consultas para datas anteriores ao dia atual.")
 
@@ -29,14 +38,6 @@ class ConsultaService(BaseService[Consulta, ConsultaRepository]):
             if consulta.data_consulta == data["data_consulta"] and consulta.horario == data["horario"]:
                 raise ValueError("Já existe uma consulta marcada para este horário.")
             
-        # Converta a string para date, se necessário
-        if isinstance(data["data_consulta"], str):
-            data["data_consulta"] = datetime.strptime(data["data_consulta"], "%Y-%m-%d").date()
-
-        # Converta a string para date, se necessário
-        if isinstance(data["horario"], str):
-            data["horario"] = datetime.strptime(data["horario"], "%H:%M").time()
-
         if not self.paciente_repo.get_by_id(data["paciente_id"]):
             raise ValueError("Paciente não encontrado.")
 

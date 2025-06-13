@@ -1,26 +1,28 @@
 from flask import Blueprint, jsonify, request
 from services.posologia_service import PosologiaService
-from core.database import SessionLocal
+from core.database import SessionLocal, get_session
 
 posologia_bp = Blueprint("Posologia", __name__, url_prefix="/posologias")
 
 @posologia_bp.route("/", methods=["GET"])
 def listar_posologias():
-    session = SessionLocal()
-    service = PosologiaService(session)
-    posologias = service.listar()
-    session.close()
-    return jsonify([p.to_dict() for p in posologias])
+    session = get_session()
+    try:
+        service = PosologiaService(session)
+        posologias = service.listar()
+        return jsonify([p.to_dict() for p in posologias])
+    finally:
+        session.close()
 
-@posologia_bp.route("/<int:entity_id>", methods=["GET"])
-def buscar_posologia(entity_id):
-    session = SessionLocal()
-    service = PosologiaService(session)
-    posologia = service.buscar_por_id(entity_id)
-    session.close()
-    if posologia:
-        return jsonify(posologia.to_dict())
-    return jsonify({"erro": "Posologia não encontrada"}), 404
+@posologia_bp.route("/tratamento/<int:tratamento_id>", methods=["GET"])
+def listar_por_tratamento(tratamento_id):
+    session = get_session()
+    try:
+        service = PosologiaService(session)
+        posologias = service.listar_por_tratamento(tratamento_id)
+        return jsonify([p.to_dict() for p in posologias])
+    finally:
+        session.close()
 
 @posologia_bp.route("/", methods=["POST"])
 def criar_posologia():
