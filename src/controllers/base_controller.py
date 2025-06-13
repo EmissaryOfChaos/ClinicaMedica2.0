@@ -30,6 +30,14 @@ class BaseController:
             session.close()
 
     @classmethod
+    def atualizar(cls, entity_id: int, data: dict):
+        session = SessionLocal()
+        service = cls.service_class(session)
+        entity = service.atualizar(entity_id, data)
+        session.close()
+        return entity.to_dict() if entity else {"erro": "Não encontrado"}, 404
+
+    @classmethod
     def deletar(cls, entity_id: int):
         session = SessionLocal()
         entity = cls.service_class(session).deletar(entity_id)

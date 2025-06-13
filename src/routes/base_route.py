@@ -11,6 +11,7 @@ class BaseRoute:
         self.blueprint.add_url_rule("/", view_func=self.listar, methods=["GET"])
         self.blueprint.add_url_rule("/<int:entity_id>", view_func=self.buscar_por_id, methods=["GET"])
         self.blueprint.add_url_rule("/", view_func=self.criar, methods=["POST"])
+        self.blueprint.add_url_rule("/<int:entity_id>", view_func=self.atualizar, methods=["PUT"])
         self.blueprint.add_url_rule("/<int:entity_id>", view_func=self.deletar, methods=["DELETE"])
 
     def get_service(self) -> Session:
@@ -42,6 +43,19 @@ class BaseRoute:
         try:
             entidade = service.criar(data)
             return jsonify(entidade.to_dict()), 201
+        except ValueError as e:
+            return jsonify({"erro": str(e)}), 400
+        finally:
+            session.close()
+
+    def atualizar(self, entity_id: int):
+        session, service = self.get_service()
+        data = request.get_json()
+        try:
+            entidade = service.atualizar(entity_id, data)
+            if entidade:
+                return jsonify(entidade.to_dict())
+            return jsonify({"erro": "Não encontrado"}), 404
         except ValueError as e:
             return jsonify({"erro": str(e)}), 400
         finally:

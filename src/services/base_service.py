@@ -20,6 +20,16 @@ class BaseService(Generic[T, R]):
 
     def buscar_por_id(self, entity_id: int) -> Optional[T]:
         return self.repository.get_by_id(entity_id)
+    
+    def atualizar(self, entity_id: int, data: dict) -> Optional[T]:
+        entity = self.repository.get_by_id(entity_id)
+        if not entity:
+            return None
+        for key, value in data.items():
+            if hasattr(entity, key):
+                setattr(entity, key, value)
+        self.repository.session.commit()
+        return entity
 
     def deletar(self, entity_id: int) -> Optional[T]:
         entity = self.repository.get_by_id(entity_id)
