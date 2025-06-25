@@ -52,4 +52,15 @@ class ConsultaService(BaseService[Consulta, ConsultaRepository]):
         )
         return self.repository.create(consulta)
     
+    def atualizar_consulta(self, consulta_id: int, data: dict):
+        consulta = self.repository.get_by_id(consulta_id)
+        if not consulta:
+            return None
+
+        for key, value in data.items():
+            if hasattr(consulta, key):
+                setattr(consulta, key, value)
+
+        return self.repository.update(consulta)
+    
     criar = criar_consulta

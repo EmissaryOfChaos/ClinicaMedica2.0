@@ -36,6 +36,22 @@ def criar_consulta():
     finally:
         session.close()
 
+@consulta_bp.route('/<int:consulta_id>', methods=['PUT'])
+def atualizar_consulta(consulta_id):
+    session = get_session()
+    try:
+        service = ConsultaService(session)
+        data = request.get_json()
+        consulta = service.atualizar_consulta(consulta_id, data)
+        if consulta:
+            return jsonify(consulta.to_dict()), 200
+        else:
+            return jsonify({"erro": "Consulta não encontrada"}), 404
+    except ValueError as e:
+        return jsonify({"erro": str(e)}), 400
+    finally:
+        session.close()
+
 @consulta_bp.route('/<int:id>', methods=['DELETE'])
 def deletar_consulta(id):
     session = get_session()
