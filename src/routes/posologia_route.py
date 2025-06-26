@@ -26,23 +26,38 @@ def listar_por_tratamento(tratamento_id):
 
 @posologia_bp.route("/", methods=["POST"])
 def criar_posologia():
-    session = SessionLocal()
-    service = PosologiaService(session)
-    data = request.get_json()
+    session = get_session()
     try:
-        posologia = service.criar(data)
-        session.close()
-        return jsonify(posologia.to_dict()), 201
+        service = PosologiaService(session)
+        resultado = service.criar(data=request.get_json())
+        return jsonify(resultado.to_dict()), 201
     except ValueError as e:
-        session.close()
         return jsonify({"erro": str(e)}), 400
+    finally:
+        session.close()
+
+@posologia_bp.route('/<int:posologia_id>', methods=['PUT'])
+def atualizar_posologia(posologia_id):
+    session = get_session()
+    try:
+        service = PosologiaService(session)
+        data = request.get_json()
+        posologia = service.atualizar_posologia(posologia_id, data)
+        if posologia:
+            return jsonify(posologia.to_dict()), 200
+        else:
+            return jsonify({"erro": "Posologia não encontrada"}), 404
+    except ValueError as e:
+        return jsonify({"erro": str(e)}), 400
+    finally:
+        session.close()
 
 @posologia_bp.route("/<int:entity_id>", methods=["DELETE"])
 def deletar_posologia(entity_id):
-    session = SessionLocal()
-    service = PosologiaService(session)
-    posologia = service.deletar(entity_id)
-    session.close()
-    if posologia:
-        return jsonify({"mensagem": "Posologia deletada"})
-    return jsonify({"erro": "Posologia não encontrada"}), 404
+    session = get_session()
+    try:
+        service = PosologiaService(session)
+        service.deletar(entity_id)  # Aqui estava faltando o 'id'
+        return jsonify({"mensagem": "Posologia deletada com sucesso"}), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 400

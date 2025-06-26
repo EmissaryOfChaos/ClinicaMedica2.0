@@ -20,7 +20,7 @@ class PosologiaService(BaseService[Posologia, PosologiaRepository]):
         if not medicamento:
             raise ValueError("Medicamento não encontrado.")
 
-        qtd_utilizada = data.get("qtd_utilizada", 0)
+        qtd_utilizada = int(data.get("qtd_utilizada", 0))
         if medicamento.qtd_estoque is not None and medicamento.qtd_estoque < qtd_utilizada:
             raise ValueError("Estoque insuficiente para retirada.")
 
@@ -34,5 +34,14 @@ class PosologiaService(BaseService[Posologia, PosologiaRepository]):
             qtd_utilizada=qtd_utilizada
         )
         return self.repository.create(posologia)
+    
+    def atualizar_posologia(self, posologia_id: int, data: dict):
+        posologia = self.repository.get_by_id(posologia_id)
+        if not posologia:
+            return None
+        for key, value in data.items():
+            if hasattr(posologia, key):
+                setattr(posologia, key, value)
+        return self.repository.update(posologia)
 
     criar = criar_posologia
