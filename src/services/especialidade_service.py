@@ -8,9 +8,6 @@ class EspecialidadeService(BaseService[Especialidade, EspecialidadeRepository]):
     def __init__(self, session: Session):
         super().__init__(EspecialidadeRepository(session))
 
-    def buscar_por_nome(self, nome: str):
-        return self.repository.get_by_nome(nome)
-
     def criar_especialidade(self, data: dict):
         especialidade = Especialidade(
             nome=data["nome"]

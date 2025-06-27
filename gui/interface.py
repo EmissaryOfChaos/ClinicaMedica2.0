@@ -40,6 +40,8 @@ class WindowCRUD(tk.Toplevel):
         frm.pack(fill="x", pady=10)
         for op in ("Listar", "Criar", "Editar", "Deletar"):
             tk.Button(frm, text=op, command=getattr(self, op.lower())).pack(side="left", padx=5)
+        if self.entidade == "pacientes":
+            tk.Button(frm, text="Ver Consultas", command=self.ver_consultas_paciente).pack(side="left", padx=5)
 
         # Configuração da tabela Colunas
         cols = ["id"] + FIELDS[entidade]
@@ -60,6 +62,39 @@ class WindowCRUD(tk.Toplevel):
                 self.tree.insert("", "end", values=row)
         except Exception as e:
             messagebox.showerror("Erro ao listar", str(e))
+
+    def ver_consultas_paciente(self):
+        sel = self.tree.focus()
+        if not sel:
+            messagebox.showwarning("Selecionar", "Nenhum paciente selecionado")
+            return
+
+        paciente_id = self.tree.item(sel)["values"][0]
+
+        try:
+            r = requests.get(f"{API_BASE}/consultas/paciente/{paciente_id}")
+            r.raise_for_status()
+            consultas = r.json()
+
+            # Criar nova janela para exibir consultas
+            win = tk.Toplevel(self)
+            win.title(f"Consultas do Paciente {paciente_id}")
+            win.geometry("600x400")
+
+            cols = ["id", "data_consulta", "horario", "medico_id"]
+            tree = ttk.Treeview(win, columns=cols, show="headings")
+            for c in cols:
+                tree.heading(c, text=c.capitalize())
+                tree.column(c, width=100)
+            tree.pack(fill="both", expand=True)
+
+            for c in consultas:
+                tree.insert("", "end", values=(c["id"], c["data_consulta"], c["horario"], c["medico_id"]))
+
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao buscar consultas: {str(e)}")
+
+    
 
     def criar(self):
         FormWindow(self, self.entidade, mode="criar")

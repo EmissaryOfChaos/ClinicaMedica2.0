@@ -11,9 +11,6 @@ class TratamentoService(BaseService[Tratamento, TratamentoRepository]):
         super().__init__(TratamentoRepository(session))
         self.consulta_repo = ConsultaRepository(session)
 
-    def listar_por_consulta(self, consulta_id: int):
-        return self.repository.get_by_consulta_id(consulta_id)
-
     def criar_tratamento(self, data: dict):
         if not self.consulta_repo.get_by_id(data["consulta_id"]):
             raise ValueError("Consulta não encontrada.")

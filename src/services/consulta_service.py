@@ -9,8 +9,9 @@ from datetime import datetime
 class ConsultaService(BaseService[Consulta, ConsultaRepository]):
     def __init__(self, session: Session):
         super().__init__(ConsultaRepository(session))
-    def listar_por_id(self, consulta_id: int):
-        return self.repository.get_by_id(consulta_id)
+
+    def listar_por_paciente(self, paciente_id: int):
+        return self.repository.get_by_paciente_id(paciente_id)
 
     def criar_consulta(self, data: dict):
 
@@ -18,7 +19,7 @@ class ConsultaService(BaseService[Consulta, ConsultaRepository]):
         if isinstance(data["data_consulta"], str):
             data["data_consulta"] = datetime.strptime(data["data_consulta"], "%Y-%m-%d").date()
 
-        # Converta a string para date, se necessário
+        # Converta a string para time, se necessário
         if isinstance(data["horario"], str):
             data["horario"] = datetime.strptime(data["horario"], "%H:%M").time()
 
@@ -29,9 +30,6 @@ class ConsultaService(BaseService[Consulta, ConsultaRepository]):
         for consulta in consultas_no_dia:
             if consulta.data_consulta == data["data_consulta"] and consulta.horario == data["horario"]:
                 raise ValueError("Já existe uma consulta marcada para este horário.")
-            
-        if not self.consulta_repo.get_by_id(data["consulta_id"]):
-            raise ValueError("Consulta não encontrada.")
 
         consulta = Consulta(
             paciente_id=data["paciente_id"],

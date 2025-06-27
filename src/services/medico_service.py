@@ -11,9 +11,6 @@ class MedicoService(BaseService[Medico, MedicoRepository]):
     def __init__(self, session: Session):
         super().__init__(MedicoRepository(session))
 
-    def buscar_por_crm(self, crm: str):
-        return self.repository.get_by_crm(crm)
-
     def criar_medico(self, data: dict):
         # Validação 5: CPF obrigatório
         if not data.get("cpf"):

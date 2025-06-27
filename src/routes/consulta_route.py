@@ -26,6 +26,16 @@ def buscar_por_id(consulta_id):
     finally:
         session.close()
 
+@consulta_bp.route("/paciente/<int:paciente_id>", methods=["GET"])
+def listar_consultas_por_paciente(paciente_id):
+    session = get_session()
+    try:
+        service = ConsultaService(session)
+        consultas = service.listar_por_paciente(paciente_id)
+        return jsonify([c.to_dict() for c in consultas])
+    finally:
+        session.close()
+
 @consulta_bp.route("/", methods=["POST"])
 def criar_consulta():
     session = get_session()
@@ -60,6 +70,6 @@ def deletar_consulta(id):
     try:
         service = ConsultaService(session)
         service.deletar(id)  # Aqui estava faltando o 'id'
-        return jsonify({"mensagem": "Paciente deletado com sucesso"}), 200
+        return jsonify({"mensagem": "PConsulta deletada com sucesso"}), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 400

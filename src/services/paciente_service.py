@@ -10,9 +10,6 @@ class PacienteService(BaseService[Paciente, PacienteRepository]):
     def __init__(self, session: Session):
         super().__init__(PacienteRepository(session))
 
-    def buscar_por_cpf(self, cpf: str):
-        return self.repository.get_by_cpf(cpf)
-
     def criar_paciente(self, data: dict):
         if not data.get("cpf"):
             raise ValueError("CPF é obrigatório.")

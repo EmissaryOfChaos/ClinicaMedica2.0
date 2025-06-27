@@ -8,9 +8,6 @@ class MedicamentoService(BaseService[Medicamento, MedicamentoRepository]):
     def __init__(self, session: Session):
         super().__init__(MedicamentoRepository(session))
 
-    def buscar_por_nome(self, nome: str):
-        return self.repository.get_by_nome(nome)
-
     def criar_medicamento(self, data: dict):
         medicamento = Medicamento(
             nome=data["nome"],
