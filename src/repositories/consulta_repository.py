@@ -7,3 +7,5 @@ class ConsultaRepository(BaseRepository[Consulta]):
     
     def get_by_paciente_id(self, paciente_id: int):
         return self.session.query(Consulta).filter_by(paciente_id=paciente_id).all()
+    
+    
