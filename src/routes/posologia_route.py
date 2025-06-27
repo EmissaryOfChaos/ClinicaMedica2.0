@@ -14,13 +14,15 @@ def listar_posologias():
     finally:
         session.close()
 
-@posologia_bp.route("/tratamento/<int:tratamento_id>", methods=["GET"])
-def listar_por_tratamento(tratamento_id):
+@posologia_bp.route("/<int:posologia_id>", methods=["GET"])
+def buscar_por_id(posologia_id):
     session = get_session()
     try:
         service = PosologiaService(session)
-        posologias = service.listar_por_tratamento(tratamento_id)
-        return jsonify([p.to_dict() for p in posologias])
+        posologia = service.buscar_por_id(posologia_id)
+        if posologia:
+            return jsonify(posologia.to_dict())
+        return jsonify({"erro": "Posologia não encontrada"}), 404
     finally:
         session.close()
 

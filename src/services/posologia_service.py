@@ -10,6 +10,9 @@ class PosologiaService(BaseService[Posologia, PosologiaRepository]):
         super().__init__(PosologiaRepository(session))
         self.tratamento_repo = TratamentoRepository(session)
         self.medicamento_repo = MedicamentoRepository(session)
+    
+    def listar_por_id(self, posologia_id: int):
+        return self.repository.get_by_id(posologia_id)
 
     def criar_posologia(self, data: dict):
         tratamento = self.tratamento_repo.get_by_id(data["tratamento_id"])

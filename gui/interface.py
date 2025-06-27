@@ -1,8 +1,4 @@
 import tkinter as tk
-from tkinter import messagebox
-import requests
-
-import tkinter as tk
 from tkinter import ttk, messagebox
 import requests
 

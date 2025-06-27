@@ -14,13 +14,15 @@ def listar_consultas():
     finally:
         session.close()
 
-@consulta_bp.route("/paciente/<int:paciente_id>", methods=["GET"])
-def listar_consultas_por_paciente(paciente_id):
+@consulta_bp.route("/<int:consulta_id>", methods=["GET"])
+def buscar_por_id(consulta_id):
     session = get_session()
     try:
         service = ConsultaService(session)
-        consultas = service.listar_por_paciente(paciente_id)
-        return jsonify([c.to_dict() for c in consultas])
+        consulta = service.buscar_por_id(consulta_id)
+        if consulta:
+            return jsonify(consulta.to_dict())
+        return jsonify({"erro": "Consulta não encontrada"}), 404
     finally:
         session.close()
 

@@ -1,6 +1,4 @@
 from repositories.consulta_repository import ConsultaRepository
-from repositories.paciente_repository import PacienteRepository
-from repositories.medico_repository import MedicoRepository
 from entities.Consulta import Consulta
 from services.base_service import BaseService
 from sqlalchemy.orm import Session
@@ -11,14 +9,8 @@ from datetime import datetime
 class ConsultaService(BaseService[Consulta, ConsultaRepository]):
     def __init__(self, session: Session):
         super().__init__(ConsultaRepository(session))
-        self.paciente_repo = PacienteRepository(session)
-        self.medico_repo = MedicoRepository(session)
-
-    def listar_por_paciente(self, paciente_id: int):
-        return self.repository.get_by_paciente_id(paciente_id)
-
-    def listar_por_medico(self, medico_id: int):
-        return self.repository.get_by_medico_id(medico_id)
+    def listar_por_id(self, consulta_id: int):
+        return self.repository.get_by_id(consulta_id)
 
     def criar_consulta(self, data: dict):
 
@@ -38,11 +30,8 @@ class ConsultaService(BaseService[Consulta, ConsultaRepository]):
             if consulta.data_consulta == data["data_consulta"] and consulta.horario == data["horario"]:
                 raise ValueError("Já existe uma consulta marcada para este horário.")
             
-        if not self.paciente_repo.get_by_id(data["paciente_id"]):
-            raise ValueError("Paciente não encontrado.")
-
-        if not self.medico_repo.get_by_id(data["medico_id"]):
-            raise ValueError("Médico não encontrado.")
+        if not self.consulta_repo.get_by_id(data["consulta_id"]):
+            raise ValueError("Consulta não encontrada.")
 
         consulta = Consulta(
             paciente_id=data["paciente_id"],

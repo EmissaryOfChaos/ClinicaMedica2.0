@@ -5,8 +5,5 @@ class ConsultaRepository(BaseRepository[Consulta]):
     def __init__(self, session):
         super().__init__(Consulta, session)
 
-    def get_by_paciente_id(self, paciente_id: int):
-        return self.session.query(Consulta).filter(Consulta.paciente_id == paciente_id).all()
-
-    def get_by_medico_id(self, medico_id: int):
-        return self.session.query(Consulta).filter(Consulta.medico_id == medico_id).all()
+    def get_by_id(self, consulta_id: int):
+        return self.session.query(Consulta).filter(Consulta.id == consulta_id).first()
