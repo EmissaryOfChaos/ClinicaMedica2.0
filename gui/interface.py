@@ -11,7 +11,8 @@ FIELDS = {
     "consultas": ["paciente_id", "medico_id", "data_consulta", "horario"],
     "tratamentos": ["descricao", "data_inicio", "data_fim", "consulta_id"],
     "posologias": ["medicamento_id", "tratamento_id", "receita", "qtd_utilizada"],
-    "medicamentos": ["nome", "dosagem", "forma_apresentacao", "qtd_estoque"]
+    "medicamentos": ["nome", "dosagem", "forma_apresentacao", "qtd_estoque"],
+    "especialidades":["nome"]
 }
 
 
